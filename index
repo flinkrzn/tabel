@@ -1,0 +1,1753 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Табель РЖД">
+    <meta name="theme-color" content="#C8102E">
+    <title>Табель РЖД</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+           ROOT — Material Design 3 Colors
+           ============================================================ */
+        :root {
+            --md-primary: #C8102E;
+            --md-primary-dark: #8E0B21;
+            --md-primary-light: #E84C6A;
+            --md-primary-container: #FFE8EC;
+            --md-surface: #F8F9FA;
+            --md-surface-dim: #E8EAED;
+            --md-surface-bright: #FFFFFF;
+            --md-on-surface: #1A1D23;
+            --md-on-surface-variant: #5B6066;
+            --md-on-primary: #FFFFFF;
+            --md-accent: #FFB300;
+            --md-accent-light: #FFD54F;
+            --md-green: #22C55E;
+            --md-blue: #3B82F6;
+            --md-elevation-1: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --md-elevation-2: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+            --md-elevation-3: 0 8px 24px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.05);
+            --md-elevation-4: 0 16px 40px rgba(0,0,0,0.12), 0 8px 16px rgba(0,0,0,0.06);
+            --md-radius: 16px;
+            --md-radius-sm: 8px;
+            --md-radius-full: 9999px;
+            --md-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --md-transition-spring: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
+        
+        html, body {
+            background: var(--md-surface);
+            color: var(--md-on-surface);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            padding-bottom: 80px;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .wrap { max-width: 480px; margin: 0 auto; padding: 0 16px; }
+
+        /* ============================================================
+           APP BAR — Google Play стиль
+           ============================================================ */
+        .app-bar {
+            background: var(--md-surface-bright);
+            padding: 12px 16px 8px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(255,255,255,0.92);
+        }
+        .app-bar-inner {
+            max-width: 480px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .app-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .app-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .app-logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--md-primary), var(--md-primary-dark));
+            border-radius: var(--md-radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 900;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(200,16,46,0.3);
+        }
+        .app-logo-text {
+            font-weight: 700;
+            font-size: 17px;
+            letter-spacing: -0.3px;
+            color: var(--md-on-surface);
+        }
+        .app-logo-text span {
+            color: var(--md-primary);
+        }
+
+        .app-bar-actions {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+        .app-bar-actions button {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: transparent;
+            color: var(--md-on-surface-variant);
+            font-size: 20px;
+            cursor: pointer;
+            transition: var(--md-transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .app-bar-actions button:hover {
+            background: rgba(0,0,0,0.05);
+        }
+        .app-bar-actions button:active {
+            transform: scale(0.92);
+        }
+
+        .month-chip {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            background: var(--md-surface-dim);
+            border: none;
+            border-radius: var(--md-radius-full);
+            padding: 6px 14px 6px 16px;
+            color: var(--md-on-surface);
+            cursor: pointer;
+            transition: var(--md-transition);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .month-chip:hover {
+            background: #D5D8DD;
+        }
+        .month-chip select {
+            background: transparent;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--md-on-surface);
+            outline: none;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+            width: auto;
+        }
+        .month-chip select option {
+            background: white;
+            color: var(--md-on-surface);
+        }
+
+        /* ============================================================
+           PROFILE CARD — Material Design
+           ============================================================ */
+        .profile-card {
+            background: var(--md-surface-bright);
+            border-radius: var(--md-radius);
+            padding: 16px 18px;
+            margin: 16px 0;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: var(--md-elevation-1);
+            transition: var(--md-transition);
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .profile-card:hover {
+            box-shadow: var(--md-elevation-2);
+        }
+
+        .profile-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--md-primary), var(--md-primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            flex-shrink: 0;
+            box-shadow: 0 2px 12px rgba(200,16,46,0.25);
+        }
+
+        .profile-info { flex: 1; min-width: 0; }
+        .profile-info .name {
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: -0.2px;
+            color: var(--md-on-surface);
+        }
+        .profile-info .role-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 2px;
+        }
+        .profile-info .role-text {
+            font-size: 13px;
+            color: var(--md-on-surface-variant);
+            font-weight: 500;
+        }
+        .profile-info .role-badge {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 2px 10px;
+            border-radius: var(--md-radius-full);
+            background: var(--md-primary-container);
+            color: var(--md-primary);
+            letter-spacing: 0.3px;
+        }
+
+        .profile-edit-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 50%;
+            background: transparent;
+            color: var(--md-on-surface-variant);
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--md-transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .profile-edit-btn:hover {
+            background: rgba(0,0,0,0.05);
+        }
+        .profile-edit-btn:active {
+            transform: scale(0.92);
+        }
+
+        /* ============================================================
+           STATS ROW — Google Play стиль
+           ============================================================ */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .stat-item {
+            background: var(--md-surface-bright);
+            border-radius: var(--md-radius);
+            padding: 14px 10px;
+            text-align: center;
+            box-shadow: var(--md-elevation-1);
+            transition: var(--md-transition);
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .stat-item:hover {
+            box-shadow: var(--md-elevation-2);
+            transform: translateY(-2px);
+        }
+        .stat-item .number {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 22px;
+            color: var(--md-primary);
+            line-height: 1.2;
+        }
+        .stat-item .label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--md-on-surface-variant);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        /* ============================================================
+           TOTAL CARD — Material Design
+           ============================================================ */
+        .total-card {
+            background: linear-gradient(135deg, #1A1D23, #14171A);
+            border-radius: var(--md-radius);
+            padding: 18px 18px 14px;
+            margin-bottom: 16px;
+            box-shadow: var(--md-elevation-2);
+            border: 1px solid rgba(255,255,255,0.06);
+            position: relative;
+            overflow: hidden;
+        }
+        .total-card::before {
+            content: '';
+            position: absolute;
+            top: -60%;
+            right: -30%;
+            width: 80%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,179,0,0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .total-card .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .total-role-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            gap: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        .total-role-row:last-of-type {
+            border-bottom: none;
+        }
+        .total-role-row .role-name {
+            font-weight: 600;
+            font-size: 13px;
+            color: rgba(255,255,255,0.85);
+            flex: 1;
+        }
+        .total-role-row .role-rate {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: rgba(255,255,255,0.4);
+            background: none;
+            border: none;
+            border-bottom: 1px dashed rgba(255,255,255,0.2);
+            cursor: pointer;
+            padding: 0;
+            transition: var(--md-transition);
+        }
+        .total-role-row .role-rate:hover {
+            color: var(--md-accent);
+            border-color: var(--md-accent);
+        }
+        .total-role-row .role-rate input {
+            width: 48px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            border: none;
+            border-bottom: 2px solid var(--md-accent);
+            background: transparent;
+            color: var(--md-accent);
+            padding: 0;
+            outline: none;
+        }
+        .total-role-row .role-hours {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: var(--md-accent);
+            text-align: right;
+            min-width: 70px;
+        }
+        .total-role-row .role-pay {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: var(--md-accent);
+            text-align: right;
+            min-width: 85px;
+            background: linear-gradient(135deg, var(--md-accent), #FF8F00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .total-grand {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            padding-top: 12px;
+            margin-top: 8px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            position: relative;
+            z-index: 1;
+        }
+        .total-grand .grand-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: rgba(255,255,255,0.4);
+        }
+        .total-grand .grand-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--md-accent);
+        }
+        .total-grand .grand-pay {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 20px;
+            font-weight: 700;
+            margin-left: 10px;
+            background: linear-gradient(135deg, var(--md-accent), #FF8F00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ============================================================
+           FAB — Floating Action Button (Google Play стиль)
+           ============================================================ */
+        .stamp-zone {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 8px 0 24px;
+        }
+
+        .fab {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, var(--md-primary), var(--md-primary-dark));
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(200,16,46,0.4);
+            transition: var(--md-transition-spring);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 2px;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            position: relative;
+        }
+        .fab:active {
+            transform: scale(0.90);
+        }
+        .fab:hover {
+            box-shadow: 0 8px 30px rgba(200,16,46,0.5);
+            transform: scale(1.02);
+        }
+
+        .fab.active {
+            background: linear-gradient(135deg, #3F4448, #2A2D32);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .fab.active .fab-icon {
+            animation: spin 2s linear infinite;
+        }
+
+        .fab .fab-icon {
+            font-size: 24px;
+            line-height: 1;
+        }
+        .fab .fab-label {
+            font-size: 9px;
+            opacity: 0.8;
+            font-weight: 600;
+        }
+        .fab .fab-time {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--md-accent);
+            margin-top: 2px;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .fab-ripple {
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 3px solid var(--md-accent);
+            opacity: 0;
+            pointer-events: none;
+        }
+        .fab-ripple.play {
+            animation: ripple-out 0.6s ease-out;
+        }
+        @keyframes ripple-out {
+            0% { opacity: 0.9; transform: scale(0.9); }
+            100% { opacity: 0; transform: scale(1.5); }
+        }
+
+        .stamp-hint {
+            margin-top: 10px;
+            font-size: 13px;
+            color: var(--md-on-surface-variant);
+            font-weight: 500;
+            text-align: center;
+        }
+
+        /* ============================================================
+           SECTION HEADER
+           ============================================================ */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0 12px;
+        }
+        .section-header .title {
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: -0.2px;
+            color: var(--md-on-surface);
+        }
+        .section-header .count {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--md-on-surface-variant);
+            background: var(--md-surface-dim);
+            padding: 2px 12px;
+            border-radius: var(--md-radius-full);
+        }
+
+        /* ============================================================
+           ENTRIES — Material Design List
+           ============================================================ */
+        .entry {
+            background: var(--md-surface-bright);
+            border-radius: var(--md-radius);
+            padding: 12px 14px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            box-shadow: var(--md-elevation-1);
+            transition: var(--md-transition);
+            border: 1px solid rgba(0,0,0,0.04);
+            animation: slide-up 0.3s ease-out;
+        }
+        .entry:hover {
+            box-shadow: var(--md-elevation-2);
+            transform: translateY(-1px);
+        }
+
+        .entry:nth-child(1) { animation-delay: 0.02s; }
+        .entry:nth-child(2) { animation-delay: 0.05s; }
+        .entry:nth-child(3) { animation-delay: 0.08s; }
+        .entry:nth-child(4) { animation-delay: 0.11s; }
+        .entry:nth-child(5) { animation-delay: 0.14s; }
+        .entry:nth-child(6) { animation-delay: 0.17s; }
+
+        @keyframes slide-up {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .entry.active-entry {
+            border-left: 4px solid var(--md-accent);
+            background: linear-gradient(135deg, rgba(255,179,0,0.04), rgba(255,179,0,0.01));
+        }
+
+        .entry .entry-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--md-on-surface-variant);
+            min-width: 44px;
+            flex-shrink: 0;
+        }
+        .entry .entry-time {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--md-on-surface);
+            flex: 1;
+            min-width: 70px;
+        }
+        .entry .entry-time .open {
+            color: var(--md-primary);
+            font-weight: 700;
+            animation: blink 1.5s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .entry .entry-tags {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        .entry .tag {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 10px;
+            border-radius: var(--md-radius-full);
+            background: var(--md-surface-dim);
+            color: var(--md-on-surface-variant);
+            font-family: 'JetBrains Mono', monospace;
+            transition: var(--md-transition);
+        }
+        .entry .tag-train { background: var(--md-primary-container); color: var(--md-primary); }
+        .entry .tag-station { background: #E3F2FD; color: #1565C0; }
+        .entry .tag-active { background: #FFF3E0; color: #E65100; }
+
+        .entry .entry-duration {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--md-on-surface-variant);
+            min-width: 50px;
+            text-align: right;
+        }
+        .entry .entry-actions {
+            display: flex;
+            gap: 2px;
+        }
+        .entry .entry-actions button {
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 50%;
+            background: transparent;
+            color: var(--md-on-surface-variant);
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--md-transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .entry .entry-actions button:hover {
+            background: rgba(0,0,0,0.05);
+            color: var(--md-primary);
+        }
+        .entry .entry-actions button:active {
+            transform: scale(0.88);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--md-on-surface-variant);
+        }
+        .empty-state .empty-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+        .empty-state .empty-title {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--md-on-surface);
+            margin-bottom: 4px;
+        }
+        .empty-state .empty-desc {
+            font-size: 14px;
+        }
+
+        /* ============================================================
+           BUTTONS — Material Design
+           ============================================================ */
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: var(--md-radius);
+            background: linear-gradient(135deg, var(--md-primary), var(--md-primary-dark));
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: var(--md-transition);
+            box-shadow: 0 2px 12px rgba(200,16,46,0.25);
+        }
+        .btn-primary:hover {
+            box-shadow: 0 4px 24px rgba(200,16,46,0.4);
+            transform: translateY(-2px);
+        }
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .action-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .action-row .btn-outline {
+            flex: 1;
+            padding: 12px;
+            border: 1.5px solid var(--md-surface-dim);
+            border-radius: var(--md-radius);
+            background: var(--md-surface-bright);
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--md-on-surface-variant);
+            cursor: pointer;
+            transition: var(--md-transition);
+        }
+        .action-row .btn-outline:hover {
+            border-color: var(--md-primary);
+            color: var(--md-primary);
+            background: var(--md-primary-container);
+        }
+        .action-row .btn-outline:active {
+            transform: scale(0.97);
+        }
+        .action-row .btn-outline.green:hover {
+            border-color: var(--md-green);
+            color: var(--md-green);
+            background: #E8F5E9;
+        }
+        .action-row .btn-outline.red:hover {
+            border-color: var(--md-primary);
+            color: var(--md-primary);
+            background: var(--md-primary-container);
+        }
+
+        /* ============================================================
+           MODAL — Material Design 3
+           ============================================================ */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 50;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            animation: fade-in 0.25s ease-out;
+        }
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal {
+            background: var(--md-surface-bright);
+            width: 100%;
+            max-width: 480px;
+            border-radius: 24px 24px 0 0;
+            padding: 24px 20px 30px;
+            box-shadow: var(--md-elevation-4);
+            max-height: 92vh;
+            overflow-y: auto;
+            animation: slide-up-modal 0.3s ease-out;
+        }
+        @keyframes slide-up-modal {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .modal-handle {
+            width: 40px;
+            height: 4px;
+            border-radius: 2px;
+            background: var(--md-surface-dim);
+            margin: -8px auto 16px;
+        }
+
+        .modal-title {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+            letter-spacing: -0.3px;
+            margin-bottom: 20px;
+        }
+
+        .field {
+            margin-bottom: 16px;
+        }
+        .field label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--md-on-surface-variant);
+            margin-bottom: 6px;
+        }
+        .field input,
+        .field select,
+        .field textarea {
+            width: 100%;
+            padding: 12px 14px;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            border: 1.5px solid var(--md-surface-dim);
+            border-radius: var(--md-radius-sm);
+            background: var(--md-surface);
+            color: var(--md-on-surface);
+            transition: var(--md-transition);
+        }
+        .field input:focus,
+        .field select:focus,
+        .field textarea:focus {
+            outline: none;
+            border-color: var(--md-primary);
+            box-shadow: 0 0 0 3px rgba(200,16,46,0.12);
+            background: white;
+        }
+        .field textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .modal-actions button {
+            flex: 1;
+            padding: 14px;
+            border-radius: var(--md-radius-sm);
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: var(--md-transition);
+            border: none;
+        }
+        .modal-actions button:active { transform: scale(0.97); }
+
+        .btn-modal-cancel {
+            background: transparent;
+            color: var(--md-on-surface-variant);
+        }
+        .btn-modal-cancel:hover {
+            background: var(--md-surface-dim);
+        }
+
+        .btn-modal-save {
+            background: linear-gradient(135deg, var(--md-primary), var(--md-primary-dark));
+            color: white;
+            box-shadow: 0 2px 12px rgba(200,16,46,0.3);
+        }
+        .btn-modal-save:hover {
+            box-shadow: 0 4px 20px rgba(200,16,46,0.4);
+        }
+
+        .btn-modal-delete {
+            background: transparent;
+            color: var(--md-primary);
+            border: 1.5px solid var(--md-primary);
+        }
+        .btn-modal-delete:hover {
+            background: var(--md-primary-container);
+        }
+
+        /* ============================================================
+           TOAST — Material Design Snackbar
+           ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--md-on-surface);
+            color: white;
+            padding: 12px 24px;
+            border-radius: var(--md-radius-full);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 60;
+            max-width: 90%;
+            box-shadow: var(--md-elevation-3);
+            text-align: center;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ============================================================
+           DARK THEME — Material Design 3 Dark
+           ============================================================ */
+        body.dark {
+            --md-surface: #121212;
+            --md-surface-dim: #1E1E1E;
+            --md-surface-bright: #1E1E1E;
+            --md-on-surface: #E8E6E0;
+            --md-on-surface-variant: #9CA3AF;
+            --md-primary-container: #3D1520;
+        }
+        body.dark .app-bar {
+            background: rgba(30,30,30,0.92);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        body.dark .profile-card,
+        body.dark .stat-item,
+        body.dark .entry {
+            background: var(--md-surface-bright);
+            border-color: rgba(255,255,255,0.05);
+        }
+        body.dark .month-chip {
+            background: var(--md-surface-dim);
+            color: var(--md-on-surface);
+        }
+        body.dark .month-chip select {
+            color: var(--md-on-surface);
+            background: var(--md-surface-dim);
+        }
+        body.dark .field input,
+        body.dark .field select,
+        body.dark .field textarea {
+            background: var(--md-surface-dim);
+            border-color: rgba(255,255,255,0.08);
+            color: var(--md-on-surface);
+        }
+        body.dark .field input:focus,
+        body.dark .field select:focus,
+        body.dark .field textarea:focus {
+            background: var(--md-surface-bright);
+            border-color: var(--md-primary);
+        }
+        body.dark .modal {
+            background: var(--md-surface-bright);
+        }
+        body.dark .entry .tag { background: var(--md-surface-dim); }
+        body.dark .entry .tag-train { background: var(--md-primary-container); }
+        body.dark .entry .tag-station { background: #0D2A3D; color: #64B5F6; }
+        body.dark .btn-outline { background: var(--md-surface-dim); border-color: rgba(255,255,255,0.08); color: var(--md-on-surface-variant); }
+        body.dark .btn-outline:hover { border-color: var(--md-primary); color: var(--md-primary); background: var(--md-primary-container); }
+        body.dark .action-row .btn-outline.green:hover { border-color: var(--md-green); color: var(--md-green); background: #1A3A1A; }
+        body.dark .action-row .btn-outline.red:hover { border-color: var(--md-primary); color: var(--md-primary); background: var(--md-primary-container); }
+        body.dark .total-card { background: linear-gradient(135deg, #0A0A0A, #141414); }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 400px) {
+            .app-logo-text { font-size: 15px; }
+            .app-logo-icon { width: 32px; height: 32px; font-size: 12px; }
+            .stats-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+            .stat-item .number { font-size: 18px; }
+            .total-grand .grand-value { font-size: 20px; }
+            .total-grand .grand-pay { font-size: 17px; }
+            .total-role-row .role-hours { font-size: 12px; min-width: 55px; }
+            .total-role-row .role-pay { font-size: 12px; min-width: 70px; }
+            .fab { width: 64px; height: 64px; }
+            .fab .fab-time { font-size: 15px; }
+            .entry { padding: 10px 12px; }
+            .field-row { grid-template-columns: 1fr; }
+            .profile-card { flex-wrap: wrap; justify-content: center; text-align: center; }
+            .profile-info .role-row { justify-content: center; }
+            .month-chip { font-size: 12px; padding: 4px 10px; }
+        }
+
+        @media (max-width: 360px) {
+            .entry .entry-tags .tag { font-size: 9px; padding: 1px 6px; }
+            .entry .entry-date { font-size: 10px; min-width: 36px; }
+            .entry .entry-duration { font-size: 11px; min-width: 40px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- ============================================================
+    APP BAR — Google Play Style
+    ============================================================ -->
+    <header class="app-bar">
+        <div class="app-bar-inner">
+            <div class="app-bar-left">
+                <div class="app-logo">
+                    <div class="app-logo-icon">РЖД</div>
+                    <div class="app-logo-text">Табель <span>РЖД</span></div>
+                </div>
+            </div>
+            <div class="app-bar-actions">
+                <button id="themeToggle" title="Сменить тему" aria-label="Переключить тему">🌓</button>
+                <div class="month-chip">
+                    <select id="monthSelect"></select>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="wrap">
+        <!-- ============================================================
+        PROFILE CARD
+        ============================================================ -->
+        <div class="profile-card">
+            <div class="profile-avatar" id="avatarLetter">И</div>
+            <div class="profile-info">
+                <div class="name" id="profileName">Иванов И.И.</div>
+                <div class="role-row">
+                    <span class="role-text" id="profileRole">Машинист</span>
+                    <span class="role-badge" id="profileBadge">МАШ</span>
+                </div>
+            </div>
+            <button class="profile-edit-btn" id="editProfileBtn" aria-label="Редактировать профиль">✎</button>
+        </div>
+
+        <!-- ============================================================
+        STATS ROW
+        ============================================================ -->
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="number" id="statDays">0</div>
+                <div class="label">Дней</div>
+            </div>
+            <div class="stat-item">
+                <div class="number" id="statShifts">0</div>
+                <div class="label">Смен</div>
+            </div>
+            <div class="stat-item">
+                <div class="number" id="statAvg">0ч</div>
+                <div class="label">Средняя</div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+        TOTAL CARD
+        ============================================================ -->
+        <div class="total-card">
+            <div class="section-label">Отработано</div>
+            <div id="roleRows"></div>
+            <div class="total-grand">
+                <span class="grand-label">Итого</span>
+                <div>
+                    <span class="grand-value" id="grandHours">0ч 00м</span>
+                    <span class="grand-pay" id="grandPay">0 ₽</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+        FAB — Floating Action Button
+        ============================================================ -->
+        <div class="stamp-zone">
+            <button class="fab" id="stampBtn">
+                <div class="fab-ripple" id="stampFlash"></div>
+                <span class="fab-icon" id="stampIcon">🚂</span>
+                <span class="fab-label" id="stampLabel">Начать</span>
+                <span class="fab-time" id="stampTime"></span>
+            </button>
+            <div class="stamp-hint" id="stampHint">не в смене</div>
+        </div>
+
+        <!-- ============================================================
+        ENTRIES LIST
+        ============================================================ -->
+        <div class="section-header">
+            <span class="title">Записи</span>
+            <span class="count" id="entryCount">0</span>
+        </div>
+        <div id="entryList"></div>
+
+        <!-- ============================================================
+        BUTTONS
+        ============================================================ -->
+        <button class="btn-primary" id="addBtn">+ Добавить запись вручную</button>
+
+        <div class="action-row">
+            <button class="btn-outline green" id="exportBtn">📤 Экспорт CSV</button>
+            <button class="btn-outline red" id="clearBtn">🗑️ Очистить</button>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    MODAL
+    ============================================================ -->
+    <div id="modalRoot"></div>
+
+    <!-- ============================================================
+    TOAST
+    ============================================================ -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ============================================================
+        //  FULL JAVASCRIPT
+        // ============================================================
+
+        const DOW = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
+        const MONTHS_NOM = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь',
+            'Декабрь'
+        ];
+
+        const ROLES = [
+            { id: 'driver', name: 'Машинист', badge: 'МАШ' },
+            { id: 'assistant', name: 'Помощник машиниста', badge: 'ПОМ' }
+        ];
+
+        const LOCOMOTIVE_SERIES = ['ВЛ-11', 'ВЛ-11М', 'ВЛ-10', 'ВЛ-10У', '2ЭС6'];
+
+        let profile = { name: 'Иванов И.И.', role: 'driver' };
+        let entries = [];
+        let rates = { driver: 379.79, assistant: 262.34 };
+        let selectedMonthKey = monthKey(new Date());
+        let tickInterval = null;
+
+        // ----- helpers -----
+        function monthKey(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); }
+
+        function pad(n) { return String(n).padStart(2, '0'); }
+
+        function fmtDur(ms) {
+            const totalMin = Math.max(0, Math.round(ms / 60000));
+            return Math.floor(totalMin / 60) + 'ч ' + pad(totalMin % 60) + 'м';
+        }
+
+        function fmtTime(iso) {
+            const d = new Date(iso);
+            return pad(d.getHours()) + ':' + pad(d.getMinutes());
+        }
+
+        function fmtDateShort(iso) {
+            const d = new Date(iso);
+            return DOW[d.getDay()] + ' ' + d.getDate() + '.' + pad(d.getMonth() + 1);
+        }
+
+        function fmtMoney(n) {
+            const parts = n.toFixed(2).split('.');
+            return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ',' + parts[1] + ' ₽';
+        }
+
+        function roleInfo(id) { return ROLES.find(r => r.id === id) || ROLES[0]; }
+
+        function toast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(t._hide);
+            t._hide = setTimeout(() => t.classList.remove('show'), 2200);
+        }
+
+        // ----- localStorage -----
+        async function loadProfile() {
+            try {
+                const raw = localStorage.getItem('tabel-profile');
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    profile.name = parsed.name || 'Иванов И.И.';
+                    profile.role = parsed.role || 'driver';
+                }
+            } catch (e) {}
+        }
+
+        async function saveProfile() {
+            try { localStorage.setItem('tabel-profile', JSON.stringify(profile)); } catch (e) { toast('Ошибка сохранения профиля'); }
+        }
+
+        async function loadEntries() {
+            try {
+                const raw = localStorage.getItem('work-entries');
+                entries = raw ? JSON.parse(raw) : [];
+                entries.forEach(e => {
+                    if (!e.role) e.role = 'driver';
+                    if (!e.series) e.series = '';
+                    if (!e.locoNum) e.locoNum = '';
+                    if (!e.trainNum) e.trainNum = '';
+                    if (!e.stationFrom) e.stationFrom = '';
+                    if (!e.stationTo) e.stationTo = '';
+                });
+            } catch (e) { entries = []; }
+        }
+
+        async function saveEntries() {
+            try { localStorage.setItem('work-entries', JSON.stringify(entries)); } catch (e) { toast('Ошибка сохранения'); }
+        }
+
+        async function loadRates() {
+            try {
+                const raw = localStorage.getItem('work-rates');
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    rates = { driver: parsed.driver || 379.79, assistant: parsed.assistant || 262.34 };
+                }
+            } catch (e) {}
+        }
+
+        async function saveRates() {
+            try { localStorage.setItem('work-rates', JSON.stringify(rates)); } catch (e) { toast('Ошибка сохранения ставки'); }
+        }
+
+        // ----- theme -----
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            localStorage.setItem('tabel-theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+        }
+
+        function loadTheme() {
+            const saved = localStorage.getItem('tabel-theme');
+            if (saved === 'dark') document.body.classList.add('dark');
+        }
+
+        // ----- data functions -----
+        function activeEntry() { return entries.find(e => !e.end); }
+
+        function monthEntriesFor() { return entries.filter(e => e.start.slice(0, 7) === selectedMonthKey); }
+
+        function msFor(e) {
+            const end = e.end || new Date().toISOString();
+            return new Date(end) - new Date(e.start);
+        }
+
+        // ----- render: profile -----
+        function renderProfile() {
+            const role = roleInfo(profile.role);
+            document.getElementById('profileName').textContent = profile.name;
+            document.getElementById('profileRole').textContent = role.name;
+            document.getElementById('profileBadge').textContent = role.badge;
+            document.getElementById('avatarLetter').textContent = profile.name.charAt(0).toUpperCase();
+        }
+
+        // ----- render: month options -----
+        function buildMonthOptions() {
+            const sel = document.getElementById('monthSelect');
+            const keys = new Set(entries.map(e => e.start.slice(0, 7)));
+            keys.add(monthKey(new Date()));
+            const sorted = Array.from(keys).sort().reverse();
+            sel.innerHTML = '';
+            sorted.forEach(k => {
+                const [y, m] = k.split('-');
+                const opt = document.createElement('option');
+                opt.value = k;
+                opt.textContent = MONTHS_NOM[parseInt(m) - 1] + ' ' + y;
+                if (k === selectedMonthKey) opt.selected = true;
+                sel.appendChild(opt);
+            });
+        }
+
+        // ----- render: total card -----
+        function renderTotal() {
+            const monthEntries = monthEntriesFor();
+            const rowsEl = document.getElementById('roleRows');
+            rowsEl.innerHTML = '';
+
+            let grandMs = 0,
+                grandPay = 0;
+            ROLES.forEach(role => {
+                const roleMs = monthEntries
+                    .filter(e => e.role === role.id)
+                    .reduce((sum, e) => sum + msFor(e), 0);
+                const roleHours = roleMs / 3600000;
+                const rolePay = roleHours * rates[role.id];
+                grandMs += roleMs;
+                grandPay += rolePay;
+
+                const row = document.createElement('div');
+                row.className = 'total-role-row';
+                row.innerHTML = `
+                    <span class="role-name">${role.name}</span>
+                    <button class="role-rate" data-role="${role.id}">${rates[role.id]} ₽/ч ✎</button>
+                    <span class="role-hours">${fmtDur(roleMs)}</span>
+                    <span class="role-pay">${fmtMoney(rolePay)}</span>
+                `;
+                rowsEl.appendChild(row);
+            });
+
+            document.getElementById('grandHours').textContent = fmtDur(grandMs);
+            document.getElementById('grandPay').textContent = fmtMoney(grandPay);
+
+            rowsEl.querySelectorAll('.role-rate').forEach(btn => {
+                btn.addEventListener('click', () => editRate(btn));
+            });
+        }
+
+        // ----- edit rate -----
+        function editRate(btn) {
+            const roleId = btn.dataset.role;
+            const current = rates[roleId];
+            btn.outerHTML =
+                `<span class="role-rate" id="rateInputWrap-${roleId}"><input type="number" min="0" step="1" value="${current}" id="rateInput-${roleId}">&nbsp;₽/ч</span>`;
+            const input = document.getElementById('rateInput-' + roleId);
+            input.focus();
+            input.select();
+            const commit = async () => {
+                const val = parseFloat(input.value);
+                rates[roleId] = (!isNaN(val) && val >= 0) ? val : current;
+                await saveRates();
+                renderTotal();
+            };
+            input.addEventListener('blur', commit, { once: true });
+            input.addEventListener('keydown', (e) => { if (e.key === 'Enter') input.blur(); });
+        }
+
+        // ----- render: stats -----
+        function renderStats() {
+            const monthEntries = monthEntriesFor();
+            const totalMs = monthEntries.reduce((sum, e) => sum + msFor(e), 0);
+            const totalHours = totalMs / 3600000;
+            const days = new Set(monthEntries.map(e => e.start.slice(0, 10))).size;
+            const count = monthEntries.length;
+
+            document.getElementById('statDays').textContent = days;
+            document.getElementById('statShifts').textContent = count;
+            document.getElementById('statAvg').textContent = count > 0 ? (totalHours / count).toFixed(1) + 'ч' : '0ч';
+            document.getElementById('entryCount').textContent = count;
+        }
+
+        // ----- render: fab -----
+        function renderFab() {
+            const active = activeEntry();
+            const btn = document.getElementById('stampBtn');
+            const label = document.getElementById('stampLabel');
+            const icon = document.getElementById('stampIcon');
+            const timeEl = document.getElementById('stampTime');
+            const hint = document.getElementById('stampHint');
+
+            if (active) {
+                btn.classList.add('active');
+                label.textContent = 'Смена';
+                icon.textContent = '⏳';
+                hint.textContent = roleInfo(active.role).name + ' · с ' + fmtTime(active.start);
+                updateTick();
+                if (!tickInterval) tickInterval = setInterval(updateTick, 1000);
+            } else {
+                btn.classList.remove('active');
+                label.textContent = 'Начать';
+                icon.textContent = '🚂';
+                timeEl.textContent = '';
+                hint.textContent = 'не в смене';
+                if (tickInterval) { clearInterval(tickInterval);
+                    tickInterval = null; }
+            }
+        }
+
+        function updateTick() {
+            const active = activeEntry();
+            if (!active) return;
+            const ms = new Date() - new Date(active.start);
+            const totalSec = Math.floor(ms / 1000);
+            const h = Math.floor(totalSec / 3600);
+            const m = Math.floor((totalSec % 3600) / 60);
+            const s = totalSec % 60;
+            document.getElementById('stampTime').textContent = pad(h) + ':' + pad(m) + ':' + pad(s);
+        }
+
+        // ----- render: list -----
+        function renderList() {
+            const list = document.getElementById('entryList');
+            const monthEntries = monthEntriesFor().sort((a, b) => new Date(b.start) - new Date(a.start));
+
+            if (monthEntries.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🚂</div>
+                        <div class="empty-title">Нет записей</div>
+                        <div class="empty-desc">Нажмите «Начать смену» или добавьте запись вручную</div>
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = '';
+            const active = activeEntry();
+            monthEntries.forEach(e => {
+                const row = document.createElement('div');
+                row.className = 'entry';
+                if (active && e.id === active.id) {
+                    row.classList.add('active-entry');
+                }
+                const dur = e.end ? fmtDur(new Date(e.end) - new Date(e.start)) : '—';
+                const timesHtml = e.end ?
+                    fmtTime(e.start) + '–' + fmtTime(e.end) :
+                    fmtTime(e.start) + '–<span class="open">сейчас</span>';
+
+                let tagsHtml = '';
+                if (e.series || e.locoNum || e.trainNum) {
+                    const parts = [];
+                    if (e.series) parts.push(e.series);
+                    if (e.locoNum) parts.push('№' + e.locoNum);
+                    if (e.trainNum) parts.push('п.№' + e.trainNum);
+                    tagsHtml += `<span class="tag tag-train">🚂 ${parts.join(' ')}</span>`;
+                }
+                if (e.stationFrom || e.stationTo) {
+                    const parts = [];
+                    if (e.stationFrom) parts.push(e.stationFrom);
+                    if (e.stationTo) parts.push(e.stationTo);
+                    tagsHtml += `<span class="tag tag-station">📍 ${parts.join(' → ')}</span>`;
+                }
+                if (!e.end) {
+                    tagsHtml += `<span class="tag tag-active">● Активна</span>`;
+                }
+
+                row.innerHTML = `
+                    <span class="entry-date">${fmtDateShort(e.start)}</span>
+                    <span class="entry-time">${timesHtml}</span>
+                    <div class="entry-tags">${tagsHtml}</div>
+                    <span class="entry-duration">${dur}</span>
+                    <div class="entry-actions">
+                        <button data-edit="${e.id}" title="Изменить">✎</button>
+                        <button data-del="${e.id}" title="Удалить">✕</button>
+                    </div>
+                `;
+                list.appendChild(row);
+            });
+
+            list.querySelectorAll('[data-edit]').forEach(btn => {
+                btn.addEventListener('click', () => openEditModal(btn.dataset.edit));
+            });
+            list.querySelectorAll('[data-del]').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    entries = entries.filter(e => e.id !== btn.dataset.del);
+                    await saveEntries();
+                    renderAll();
+                    toast('🗑️ Запись удалена');
+                });
+            });
+        }
+
+        // ----- render all -----
+        function renderAll() {
+            renderProfile();
+            buildMonthOptions();
+            renderTotal();
+            renderStats();
+            renderFab();
+            renderList();
+        }
+
+        // ----- modal helpers -----
+        function toLocalInputValue(iso) {
+            const d = new Date(iso);
+            return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d
+                .getMinutes());
+        }
+
+        function openEditModal(id) {
+            const entry = id ? entries.find(e => e.id === id) : null;
+            const now = new Date();
+            const defaultStart = entry ? toLocalInputValue(entry.start) : toLocalInputValue(now.toISOString());
+
+            const currentRoleForEntry = entry ? entry.role : profile.role;
+
+            const roleOptionsHtml = ROLES.map(r =>
+                `<option value="${r.id}" ${(currentRoleForEntry === r.id) ? 'selected' : ''}>${r.name}</option>`
+            ).join('');
+
+            const seriesOptionsHtml = LOCOMOTIVE_SERIES.map(s =>
+                `<option value="${s}" ${(entry && entry.series === s) ? 'selected' : ''}>${s}</option>`
+            ).join('');
+
+            const root = document.getElementById('modalRoot');
+            root.innerHTML = `
+                <div class="modal-backdrop" id="backdrop">
+                    <div class="modal">
+                        <div class="modal-handle"></div>
+                        <div class="modal-title">${entry ? '✎ Изменить запись' : '➕ Добавить запись'}</div>
+
+                        <div class="field">
+                            <label>Начало смены</label>
+                            <input type="datetime-local" id="startInput" value="${defaultStart}">
+                        </div>
+
+                        <div class="field">
+                            <label>Окончание (можно оставить пустым)</label>
+                            <input type="datetime-local" id="endInput" value="${entry && entry.end ? toLocalInputValue(entry.end) : ''}">
+                        </div>
+
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Станция отправления</label>
+                                <input type="text" id="stationFromInput" placeholder="Москва" value="${entry ? entry.stationFrom || '' : ''}">
+                            </div>
+                            <div class="field">
+                                <label>Станция назначения</label>
+                                <input type="text" id="stationToInput" placeholder="Санкт-Петербург" value="${entry ? entry.stationTo || '' : ''}">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label>Серия локомотива</label>
+                            <select id="seriesInput">
+                                <option value="">— не указано —</option>
+                                ${seriesOptionsHtml}
+                            </select>
+                        </div>
+
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Номер локомотива</label>
+                                <input type="text" id="locoNumInput" placeholder="1234" value="${entry ? entry.locoNum || '' : ''}">
+                            </div>
+                            <div class="field">
+                                <label>Номер поезда</label>
+                                <input type="text" id="trainNumInput" placeholder="202" value="${entry ? entry.trainNum || '' : ''}">
+                            </div>
+                        </div>
+
+                        <div class="modal-actions">
+                            <button class="btn-modal-cancel" id="cancelBtn">Отмена</button>
+                            <button class="btn-modal-save" id="saveBtn">Сохранить</button>
+                        </div>
+                        ${entry ? '<div class="modal-actions"><button class="btn-modal-delete" id="deleteBtn" style="width:100%">🗑️ Удалить запись</button></div>' : ''}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('backdrop').addEventListener('click', (e) => {
+                if (e.target.id === 'backdrop') closeModal();
+            });
+            document.getElementById('cancelBtn').addEventListener('click', closeModal);
+
+            document.getElementById('saveBtn').addEventListener('click', async () => {
+                const startVal = document.getElementById('startInput').value;
+                const endVal = document.getElementById('endInput').value;
+                const seriesVal = document.getElementById('seriesInput').value;
+                const locoNumVal = document.getElementById('locoNumInput').value.trim();
+                const trainNumVal = document.getElementById('trainNumInput').value.trim();
+                const stationFromVal = document.getElementById('stationFromInput').value.trim();
+                const stationToVal = document.getElementById('stationToInput').value.trim();
+
+                if (!startVal) { toast('Укажите время начала'); return; }
+                const startISO = new Date(startVal).toISOString();
+                const endISO = endVal ? new Date(endVal).toISOString() : null;
+                if (endISO && new Date(endISO) <= new Date(startISO)) {
+                    toast('Окончание должно быть позже начала');
+                    return;
+                }
+
+                const roleVal = profile.role;
+
+                if (entry) {
+                    entry.start = startISO;
+                    entry.end = endISO;
+                    entry.role = roleVal;
+                    entry.series = seriesVal;
+                    entry.locoNum = locoNumVal;
+                    entry.trainNum = trainNumVal;
+                    entry.stationFrom = stationFromVal;
+                    entry.stationTo = stationToVal;
+                } else {
+                    entries.push({
+                        id: 'e' + Date.now(),
+                        start: startISO,
+                        end: endISO,
+                        role: roleVal,
+                        series: seriesVal,
+                        locoNum: locoNumVal,
+                        trainNum: trainNumVal,
+                        stationFrom: stationFromVal,
+                        stationTo: stationToVal
+                    });
+                }
+                await saveEntries();
+                closeModal();
+                renderAll();
+                toast('✅ Сохранено');
+            });
+
+            const delBtn = document.getElementById('deleteBtn');
+            if (delBtn) {
+                delBtn.addEventListener('click', async () => {
+                    entries = entries.filter(e2 => e2.id !== entry.id);
+                    await saveEntries();
+                    closeModal();
+                    renderAll();
+                    toast('🗑️ Запись удалена');
+                });
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('modalRoot').innerHTML = '';
+        }
+
+        // ----- Редактирование профиля -----
+        function openProfileModal() {
+            const root = document.getElementById('modalRoot');
+            const roleOptionsHtml = ROLES.map(r =>
+                `<option value="${r.id}" ${(profile.role === r.id) ? 'selected' : ''}>${r.name}</option>`
+            ).join('');
+
+            root.innerHTML = `
+                <div class="modal-backdrop" id="backdrop">
+                    <div class="modal">
+                        <div class="modal-handle"></div>
+                        <div class="modal-title">👤 Редактировать профиль</div>
+
+                        <div class="field">
+                            <label>ФИО машиниста</label>
+                            <input type="text" id="profileNameInput" placeholder="Иванов И.И." value="${profile.name}">
+                        </div>
+
+                        <div class="field">
+                            <label>Должность</label>
+                            <select id="profileRoleInput">${roleOptionsHtml}</select>
+                        </div>
+
+                        <div class="modal-actions">
+                            <button class="btn-modal-cancel" id="cancelBtn">Отмена</button>
+                            <button class="btn-modal-save" id="saveBtn">Сохранить</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('backdrop').addEventListener('click', (e) => {
+                if (e.target.id === 'backdrop') closeModal();
+            });
+            document.getElementById('cancelBtn').addEventListener('click', closeModal);
+
+            document.getElementById('saveBtn').addEventListener('click', async () => {
+                const name = document.getElementById('profileNameInput').value.trim();
+                const role = document.getElementById('profileRoleInput').value;
+
+                if (!name) { toast('Введите ФИО'); return; }
+
+                profile.name = name;
+                profile.role = role;
+                await saveProfile();
+                closeModal();
+                renderAll();
+                toast('✅ Профиль сохранён');
+            });
+        }
+
+        // ----- export CSV -----
+        function exportCSV() {
+            const monthEntries = monthEntriesFor().sort((a, b) => new Date(a.start) - new Date(b.start));
+            if (monthEntries.length === 0) {
+                toast('Нет записей для экспорта');
+                return;
+            }
+            let csv = 'Дата,Начало,Конец,Отправление,Назначение,Серия,№Локомотива,№Поезда,Часы,Зарплата\n';
+            monthEntries.forEach(e => {
+                const start = new Date(e.start);
+                const end = e.end ? new Date(e.end) : new Date();
+                const hours = ((end - start) / 3600000).toFixed(2);
+                const pay = hours * rates[e.role];
+                csv +=
+                    `${start.toLocaleDateString()},${fmtTime(e.start)},${e.end ? fmtTime(e.end) : 'сейчас'},${e.stationFrom || ''},${e.stationTo || ''},${e.series || ''},${e.locoNum || ''},${e.trainNum || ''},${hours},${pay.toFixed(2)}\n`;
+            });
+
+            const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `табель_${selectedMonthKey}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            toast('📤 CSV экспортирован!');
+        }
+
+        // ----- clear month -----
+        function clearMonth() {
+            if (!confirm(`Удалить все записи за ${selectedMonthKey}?`)) return;
+            entries = entries.filter(e => e.start.slice(0, 7) !== selectedMonthKey);
+            saveEntries();
+            renderAll();
+            toast('🗑️ Записи удалены');
+        }
+
+        // ----- events -----
+        document.getElementById('stampBtn').addEventListener('click', async () => {
+            const active = activeEntry();
+            const flash = document.getElementById('stampFlash');
+            flash.classList.remove('play');
+            void flash.offsetWidth;
+            flash.classList.add('play');
+
+            if (active) {
+                active.end = new Date().toISOString();
+                await saveEntries();
+                toast('✅ Смена закончена');
+                renderAll();
+            } else {
+                const now = new Date();
+                const tempId = 'temp_' + Date.now();
+                entries.push({
+                    id: tempId,
+                    start: now.toISOString(),
+                    end: null,
+                    role: profile.role,
+                    series: '',
+                    locoNum: '',
+                    trainNum: '',
+                    stationFrom: '',
+                    stationTo: ''
+                });
+                await saveEntries();
+                renderAll();
+                openEditModal(tempId);
+                toast('📝 Заполните данные о поезде');
+            }
+        });
+
+        document.getElementById('monthSelect').addEventListener('change', (e) => {
+            selectedMonthKey = e.target.value;
+            renderTotal();
+            renderStats();
+            renderList();
+        });
+
+        document.getElementById('addBtn').addEventListener('click', () => openEditModal(null));
+        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+        document.getElementById('exportBtn').addEventListener('click', exportCSV);
+        document.getElementById('clearBtn').addEventListener('click', clearMonth);
+        document.getElementById('editProfileBtn').addEventListener('click', openProfileModal);
+
+        // ----- init -----
+        (async function init() {
+            loadTheme();
+            await loadProfile();
+            await loadEntries();
+            await loadRates();
+            renderAll();
+        })();
+    </script>
+</body>
+</html>

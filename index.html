@@ -5,12 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Табель">
+    <meta name="apple-mobile-web-app-title" content="Табель РЖД">
     <meta name="theme-color" content="#C8102E">
-    <title>Табель</title>
+    <title>Табель РЖД</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="data:application/json,{
+        &quot;name&quot;: &quot;Табель РЖД&quot;,
+        &quot;short_name&quot;: &quot;Табель&quot;,
+        &quot;description&quot;: &quot;Учёт рабочего времени для машинистов и помощников машинистов&quot;,
+        &quot;start_url&quot;: &quot;.&quot;,
+        &quot;display&quot;: &quot;standalone&quot;,
+        &quot;background_color&quot;: &quot;#F1F0EB&quot;,
+        &quot;theme_color&quot;: &quot;#C8102E&quot;,
+        &quot;orientation&quot;: &quot;portrait&quot;,
+        &quot;icons&quot;: [
+            {
+                &quot;src&quot;: &quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' fill='%23C8102E' rx='12'/%3E%3Ctext x='96' y='130' text-anchor='middle' font-family='Oswald,sans-serif' font-weight='700' font-size='80' fill='white'%3EРЖД%3C/text%3E%3C/svg%3E&quot;,
+                &quot;sizes&quot;: &quot;192x192&quot;,
+                &quot;type&quot;: &quot;image/svg+xml&quot;,
+                &quot;purpose&quot;: &quot;any maskable&quot;
+            },
+            {
+                &quot;src&quot;: &quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%23C8102E' rx='24'/%3E%3Ctext x='256' y='340' text-anchor='middle' font-family='Oswald,sans-serif' font-weight='700' font-size='200' fill='white'%3EРЖД%3C/text%3E%3C/svg%3E&quot;,
+                &quot;sizes&quot;: &quot;512x512&quot;,
+                &quot;type&quot;: &quot;image/svg+xml&quot;,
+                &quot;purpose&quot;: &quot;any maskable&quot;
+            }
+        ]
+    }">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=PT+Sans:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
     <style>
+        /* ===== ВЕСЬ CSS КОД ИЗ ПРЕДЫДУЩЕЙ ВЕРСИИ ===== */
+        /* (скопируйте сюда полный CSS) */
+        
         :root {
             --red: #C8102E;
             --red-dark: #8E0B21;
@@ -24,30 +55,25 @@
             --ink: #1B1E22;
             --ink-soft: #5B6066;
             --line: rgba(27,30,34,0.13);
+            --green: #22C55E;
+            --blue: #3B82F6;
+            --shadow: 0 4px 14px rgba(0,0,0,0.1);
         }
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-            margin: 0;
-            padding: 0;
-        }
-        html,
-        body {
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
+        html, body {
             background: var(--paper);
             color: var(--ink);
             font-family: 'PT Sans', sans-serif;
             min-height: 100vh;
-            padding-bottom: 60px;
+            padding-bottom: 80px;
             overflow-x: hidden;
         }
-        .wrap {
-            max-width: 460px;
-            margin: 0 auto;
-            padding: 0 16px;
-        }
+        .wrap { max-width: 460px; margin: 0 auto; padding: 0 16px; }
+
+        /* HEADER */
         .rail-header {
             background: var(--red);
-            padding: 16px 16px 14px;
+            padding: 12px 16px 12px;
             position: sticky;
             top: 0;
             z-index: 10;
@@ -58,27 +84,47 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-        }
-        .brand {
-            display: flex;
-            align-items: center;
             gap: 10px;
         }
-        .brand-mark {
+        .brand { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        
+        /* ЛОГОТИП РЖД */
+        .rzd-logo {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        .rzd-logo svg {
+            width: 32px;
+            height: 32px;
+            display: block;
+        }
+        .rzd-logo-text {
             font-family: 'Oswald', sans-serif;
             font-weight: 700;
-            font-size: 12px;
+            font-size: 11px;
             letter-spacing: 0.06em;
-            color: var(--red);
-            background: #fff;
-            border-radius: 3px;
-            padding: 3px 6px;
-            line-height: 1.2;
+            color: rgba(255,255,255,0.9);
+            line-height: 1.1;
+            text-transform: uppercase;
         }
+        .rzd-logo-text span {
+            display: block;
+            font-size: 8px;
+            font-weight: 400;
+            opacity: 0.7;
+        }
+
         .brand h1 {
             font-family: 'Oswald', sans-serif;
             font-weight: 600;
-            font-size: 20px;
+            font-size: 18px;
             letter-spacing: 0.03em;
             margin: 0;
             text-transform: uppercase;
@@ -87,66 +133,150 @@
         .brand .sub {
             display: block;
             font-family: 'PT Sans', sans-serif;
-            font-size: 10.5px;
-            color: rgba(255, 255, 255, 0.8);
-            margin-top: 1px;
+            font-size: 9.5px;
+            color: rgba(255,255,255,0.8);
+            margin-top: 0px;
             letter-spacing: 0.01em;
+        }
+        .header-actions { 
+            display: flex; 
+            gap: 6px; 
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .header-actions button {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: #fff;
+            border-radius: 4px;
+            padding: 6px 10px;
+            font-size: 16px;
+            cursor: pointer;
         }
         .month-select {
             font-family: 'PT Sans', sans-serif;
             font-weight: 700;
-            font-size: 13px;
-            background: rgba(255, 255, 255, 0.14);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            font-size: 12px;
+            background: rgba(255,255,255,0.14);
+            border: 1px solid rgba(255,255,255,0.4);
             color: #fff;
             text-align: right;
             border-radius: 4px;
-            padding: 5px 8px;
+            padding: 4px 8px;
+            max-width: 110px;
         }
-        .month-select option {
-            color: var(--ink);
-        }
+        .month-select option { color: var(--ink); }
         .rail-stripe {
-            height: 6px;
+            height: 4px;
             background: repeating-linear-gradient(45deg, var(--steel-dark) 0 10px, #fff 10px 20px);
         }
-        .wrap {
-            padding-top: 20px;
+        .wrap { padding-top: 16px; }
+
+        /* ПРОФИЛЬ */
+        .profile-card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
         }
+        .profile-card .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--red);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Oswald', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            flex-shrink: 0;
+            text-transform: uppercase;
+        }
+        .profile-card .info {
+            flex: 1;
+            min-width: 100px;
+        }
+        .profile-card .info .name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+        .profile-card .info .role {
+            font-size: 12px;
+            color: var(--ink-soft);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .profile-card .info .role .badge {
+            background: var(--red);
+            color: #fff;
+            padding: 1px 10px;
+            border-radius: 10px;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .profile-card .edit-btn {
+            background: none;
+            border: 1.5px solid var(--steel);
+            border-radius: 6px;
+            padding: 5px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--ink-soft);
+            cursor: pointer;
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+        .profile-card .edit-btn:hover {
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        /* TOTAL CARD */
         .total-card {
             background: var(--board);
-            border-radius: 4px;
-            padding: 16px 18px 14px;
-            margin-bottom: 20px;
-            box-shadow: 0 6px 18px rgba(20, 23, 26, 0.25);
+            border-radius: 12px;
+            padding: 14px 16px 12px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
         }
         .total-card .label {
             font-family: 'Oswald', sans-serif;
-            font-size: 11px;
+            font-size: 10px;
             letter-spacing: 0.16em;
             text-transform: uppercase;
             color: var(--steel);
             font-weight: 500;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         .role-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 9px 0;
+            padding: 7px 0;
             border-bottom: 1px solid var(--board-line);
-            gap: 8px;
+            gap: 6px;
         }
         .role-row .rname {
             font-family: 'PT Sans', sans-serif;
             font-weight: 700;
-            font-size: 13px;
+            font-size: 12px;
             color: #E8E6E0;
             flex: 1;
         }
         .role-row .rrate {
             font-family: 'Share Tech Mono', monospace;
-            font-size: 11px;
+            font-size: 10px;
             color: var(--steel);
             background: none;
             border: none;
@@ -156,9 +286,9 @@
             flex-shrink: 0;
         }
         .role-row .rrate input {
-            width: 50px;
+            width: 45px;
             font-family: 'Share Tech Mono', monospace;
-            font-size: 11px;
+            font-size: 10px;
             border: none;
             border-bottom: 1px solid var(--amber);
             background: transparent;
@@ -168,8 +298,8 @@
         .role-row .rhrs {
             font-family: 'Share Tech Mono', monospace;
             font-weight: 400;
-            font-size: 15px;
-            width: 80px;
+            font-size: 13px;
+            width: 70px;
             text-align: right;
             flex-shrink: 0;
             color: var(--amber);
@@ -178,9 +308,9 @@
         .role-row .rpay {
             font-family: 'Share Tech Mono', monospace;
             font-weight: 400;
-            font-size: 15px;
+            font-size: 13px;
             color: var(--amber);
-            width: 92px;
+            width: 80px;
             text-align: right;
             flex-shrink: 0;
             letter-spacing: 0.02em;
@@ -189,13 +319,13 @@
             display: flex;
             align-items: baseline;
             justify-content: space-between;
-            margin-top: 12px;
-            padding-top: 12px;
+            margin-top: 10px;
+            padding-top: 10px;
             border-top: 1px solid var(--steel-dark);
         }
         .grand-row .glabel {
             font-family: 'Oswald', sans-serif;
-            font-size: 11px;
+            font-size: 10px;
             letter-spacing: 0.14em;
             text-transform: uppercase;
             color: var(--steel);
@@ -203,47 +333,55 @@
         .grand-row .gval {
             font-family: 'Share Tech Mono', monospace;
             font-weight: 400;
-            font-size: 26px;
+            font-size: 22px;
             color: var(--amber);
         }
         .grand-row .gpay {
             font-family: 'Share Tech Mono', monospace;
             font-weight: 400;
-            font-size: 22px;
+            font-size: 18px;
             color: var(--amber);
-            margin-left: 12px;
+            margin-left: 10px;
         }
-        .role-toggle {
-            display: flex;
+
+        /* STATS ROW */
+        .stats-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 8px;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
-        .role-toggle button {
-            flex: 1;
-            padding: 10px 8px;
-            border-radius: 3px;
-            border: 1.5px solid var(--steel);
+        .stat-card {
             background: var(--card);
-            font-family: 'PT Sans', sans-serif;
-            font-size: 12.5px;
+            border-radius: 8px;
+            padding: 10px 8px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        .stat-card .num {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 18px;
             font-weight: 700;
-            color: var(--ink);
-            cursor: pointer;
+            color: var(--red);
         }
-        .role-toggle button.sel {
-            background: var(--red);
-            color: #fff;
-            border-color: var(--red-dark);
+        .stat-card .lbl {
+            font-size: 9px;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            letter-spacing: 0.06em;
+            font-weight: 700;
         }
+
+        /* STAMP */
         .stamp-zone {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 8px 0 28px;
+            margin: 4px 0 24px;
         }
         .stamp-btn {
-            width: 128px;
-            height: 128px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             border: 4px solid var(--steel-dark);
             background: var(--red);
@@ -254,36 +392,35 @@
             cursor: pointer;
             font-family: 'Oswald', sans-serif;
             font-weight: 600;
-            font-size: 12.5px;
+            font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             color: #fff;
             transition: transform 0.12s ease, box-shadow 0.12s ease;
             position: relative;
-            box-shadow: 0 4px 14px rgba(200, 16, 46, 0.35);
+            box-shadow: 0 4px 14px rgba(200,16,46,0.35);
         }
-        .stamp-btn:active {
-            transform: scale(0.94);
-        }
+        .stamp-btn:active { transform: scale(0.94); }
         .stamp-btn.active {
             background: var(--steel-dark);
             border-color: var(--amber);
-            box-shadow: 0 4px 14px rgba(255, 179, 0, 0.3);
+            box-shadow: 0 4px 14px rgba(255,179,0,0.3);
         }
         .stamp-btn .time {
             font-family: 'Share Tech Mono', monospace;
             font-weight: 400;
-            font-size: 19px;
-            margin-top: 4px;
+            font-size: 17px;
+            margin-top: 3px;
             letter-spacing: 0.02em;
             color: var(--amber);
         }
         .stamp-hint {
-            margin-top: 12px;
-            font-size: 12.5px;
+            margin-top: 10px;
+            font-size: 12px;
             color: var(--ink-soft);
             font-family: 'PT Sans', sans-serif;
             text-align: center;
+            font-weight: 700;
         }
         .stamp-flash {
             position: absolute;
@@ -293,26 +430,20 @@
             opacity: 0;
             pointer-events: none;
         }
-        .stamp-flash.play {
-            animation: stampPulse 0.5s ease-out;
-        }
+        .stamp-flash.play { animation: stampPulse 0.5s ease-out; }
         @keyframes stampPulse {
-            0% {
-                opacity: 0.9;
-                transform: scale(0.9);
-            }
-            100% {
-                opacity: 0;
-                transform: scale(1.35);
-            }
+            0% { opacity: 0.9; transform: scale(0.9); }
+            100% { opacity: 0; transform: scale(1.35); }
         }
+
+        /* SECTION */
         .section-label {
             font-family: 'Oswald', sans-serif;
-            font-size: 11px;
+            font-size: 10px;
             letter-spacing: 0.16em;
             text-transform: uppercase;
             color: var(--ink-soft);
-            margin: 0 0 10px 2px;
+            margin: 0 0 8px 2px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -323,55 +454,69 @@
             height: 1px;
             background: var(--line);
         }
+        .section-label .badge {
+            background: var(--red);
+            color: #fff;
+            padding: 1px 8px;
+            border-radius: 10px;
+            font-size: 9px;
+        }
+
+        /* ENTRIES */
         .entry {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 10px;
-            margin-bottom: 6px;
+            gap: 4px;
+            padding: 8px 8px;
+            margin-bottom: 5px;
             background: var(--card);
-            border-left: 3px dashed var(--steel);
-            border-radius: 2px;
-            font-size: 14px;
-            box-shadow: 0 1px 2px rgba(27, 30, 34, 0.06);
+            border-left: 3px solid var(--steel);
+            border-radius: 6px;
+            font-size: 13px;
+            box-shadow: 0 1px 2px rgba(27,30,34,0.06);
+            flex-wrap: wrap;
         }
         .entry .date {
-            width: 56px;
+            width: 46px;
             flex-shrink: 0;
             font-family: 'Share Tech Mono', monospace;
-            font-size: 12px;
+            font-size: 11px;
             color: var(--ink-soft);
             line-height: 1.3;
-        }
-        .entry .rbadge {
-            flex-shrink: 0;
-            font-family: 'Oswald', sans-serif;
-            font-size: 10px;
-            font-weight: 600;
-            padding: 3px 6px;
-            border-radius: 3px;
-            background: var(--red);
-            color: #fff;
-            white-space: nowrap;
-            letter-spacing: 0.03em;
         }
         .entry .times {
             flex: 1;
             font-family: 'Share Tech Mono', monospace;
-            font-size: 13px;
+            font-size: 11px;
+            min-width: 70px;
         }
-        .entry .times .open {
-            color: var(--red);
-            font-weight: 700;
+        .entry .times .open { color: var(--red); font-weight: 700; }
+        .entry .train-info {
+            font-size: 9px;
+            color: var(--ink-soft);
+            background: var(--paper);
+            padding: 2px 6px;
+            border-radius: 4px;
+            white-space: nowrap;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        .entry .stations {
+            font-size: 9px;
+            color: var(--steel-dark);
+            background: var(--paper);
+            padding: 2px 6px;
+            border-radius: 4px;
+            white-space: nowrap;
+            font-family: 'Share Tech Mono', monospace;
         }
         .entry .dur {
             font-family: 'Share Tech Mono', monospace;
             font-weight: 400;
-            font-size: 13.5px;
+            font-size: 12px;
             color: var(--steel-dark);
-            width: 58px;
             text-align: right;
             flex-shrink: 0;
+            min-width: 46px;
         }
         .entry .actions {
             display: flex;
@@ -382,85 +527,109 @@
             background: none;
             border: none;
             cursor: pointer;
-            padding: 6px 5px;
+            padding: 4px 4px;
             color: var(--ink-soft);
-            font-size: 14px;
+            font-size: 13px;
             line-height: 1;
-        }
-        .entry .actions button:hover {
-            color: var(--red);
         }
         .empty {
             text-align: center;
-            padding: 30px 10px;
+            padding: 24px 10px;
             color: var(--ink-soft);
-            font-size: 13.5px;
-            font-family: 'PT Sans', sans-serif;
+            font-size: 13px;
         }
+
+        /* BUTTONS */
         .add-btn {
             width: 100%;
-            margin-top: 16px;
+            margin-top: 14px;
             padding: 12px;
             background: transparent;
             border: 1.5px dashed var(--steel);
-            border-radius: 3px;
+            border-radius: 8px;
             color: var(--ink-soft);
             font-family: 'PT Sans', sans-serif;
             font-weight: 700;
             font-size: 13px;
             cursor: pointer;
+            transition: all 0.15s;
         }
-        .add-btn:hover {
-            border-color: var(--red);
-            color: var(--red);
+        .add-btn:hover { border-color: var(--red); color: var(--red); }
+
+        .action-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
         }
+        .action-row button {
+            flex: 1;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1.5px solid var(--steel);
+            background: var(--card);
+            font-family: 'PT Sans', sans-serif;
+            font-weight: 700;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .action-row .export-btn { border-color: var(--green); color: var(--green); }
+        .action-row .clear-btn { border-color: var(--red); color: var(--red); }
+
+        /* MODAL */
         .modal-backdrop {
             position: fixed;
             inset: 0;
-            background: rgba(20, 23, 26, 0.5);
+            background: rgba(20,23,26,0.5);
             display: flex;
             align-items: flex-end;
             justify-content: center;
             z-index: 50;
+            backdrop-filter: blur(2px);
         }
         .modal {
             background: var(--paper);
             width: 100%;
             max-width: 460px;
-            border-radius: 12px 12px 0 0;
-            padding: 20px 20px 26px;
+            border-radius: 20px 20px 0 0;
+            padding: 24px 20px 30px;
             border-top: 4px solid var(--red);
+            box-shadow: 0 -8px 30px rgba(0,0,0,0.15);
+            max-height: 90vh;
+            overflow-y: auto;
         }
         .modal h2 {
             font-family: 'Oswald', sans-serif;
             font-weight: 600;
-            font-size: 17px;
+            font-size: 18px;
             margin: 0 0 14px;
             text-transform: uppercase;
             letter-spacing: 0.02em;
         }
-        .field {
-            margin-bottom: 12px;
-        }
+        .field { margin-bottom: 12px; }
         .field label {
             display: block;
-            font-size: 11px;
+            font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 0.08em;
             color: var(--ink-soft);
-            margin-bottom: 4px;
+            margin-bottom: 3px;
             font-family: 'Oswald', sans-serif;
         }
-        .field input,
-        .field select {
+        .field input, .field select {
             width: 100%;
-            padding: 9px 10px;
+            padding: 10px 12px;
             font-size: 14px;
             font-family: 'PT Sans', sans-serif;
             border: 1.5px solid var(--ink);
-            border-radius: 4px;
+            border-radius: 8px;
             background: #fff;
             color: var(--ink);
+        }
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
         }
         .modal-actions {
             display: flex;
@@ -469,37 +638,28 @@
         }
         .modal-actions button {
             flex: 1;
-            padding: 11px;
-            border-radius: 4px;
+            padding: 12px;
+            border-radius: 8px;
             font-size: 14px;
             font-family: 'PT Sans', sans-serif;
             font-weight: 700;
             cursor: pointer;
             border: 1.5px solid var(--ink);
+            transition: all 0.15s;
         }
-        .btn-cancel {
-            background: transparent;
-            color: var(--ink);
-        }
-        .btn-save {
-            background: var(--red);
-            color: #fff;
-            border-color: var(--red-dark);
-        }
-        .btn-delete {
-            background: transparent;
-            color: var(--red);
-            border-color: var(--red);
-        }
+        .btn-cancel { background: transparent; color: var(--ink); }
+        .btn-save { background: var(--red); color: #fff; border-color: var(--red-dark); }
+        .btn-delete { background: transparent; color: var(--red); border-color: var(--red); }
+
         .toast {
             position: fixed;
-            bottom: 18px;
+            bottom: 24px;
             left: 50%;
             transform: translateX(-50%);
             background: var(--steel-dark);
             color: #fff;
-            padding: 9px 16px;
-            border-radius: 20px;
+            padding: 10px 18px;
+            border-radius: 40px;
             font-size: 13px;
             font-family: 'PT Sans', sans-serif;
             font-weight: 700;
@@ -507,42 +667,47 @@
             pointer-events: none;
             transition: opacity 0.25s ease;
             z-index: 60;
+            white-space: nowrap;
+            max-width: 90%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            text-align: center;
         }
-        .toast.show {
-            opacity: 1;
-        }
+        .toast.show { opacity: 1; }
 
-        /* Дополнительно для Android WebView */
-        body {
-            padding-top: env(safe-area-inset-top);
-            padding-bottom: env(safe-area-inset-bottom);
+        /* DARK THEME */
+        body.dark {
+            --paper: #1A1D23;
+            --card: #2D3038;
+            --ink: #E8E6E0;
+            --ink-soft: #9CA3AF;
+            --line: rgba(255,255,255,0.08);
         }
-
-        /* Улучшенная кнопка на телефоне */
-        .stamp-btn {
-            -webkit-tap-highlight-color: transparent;
+        body.dark .entry { background: var(--card); }
+        body.dark .stat-card { background: var(--card); }
+        body.dark .modal { background: var(--paper); }
+        body.dark .field input, body.dark .field select {
+            background: var(--card);
+            color: var(--ink);
+            border-color: var(--ink-soft);
         }
-        .stamp-btn:active {
-            transform: scale(0.94);
-        }
-
-        /* Фикс для модалки на Android */
-        .modal-backdrop {
-            padding-bottom: env(safe-area-inset-bottom);
-        }
+        body.dark .add-btn { color: var(--ink-soft); }
+        body.dark .entry .train-info { background: var(--steel-dark); color: var(--amber); }
+        body.dark .entry .stations { background: var(--steel-dark); color: var(--amber); }
+        body.dark .profile-card { background: var(--card); }
 
         @media (max-width: 400px) {
-            .role-row .rhrs {
-                width: 60px;
-                font-size: 13px;
-            }
-            .role-row .rpay {
-                width: 75px;
-                font-size: 13px;
-            }
-            .brand h1 {
-                font-size: 17px;
-            }
+            .role-row .rhrs { width: 55px; font-size: 12px; }
+            .role-row .rpay { width: 70px; font-size: 12px; }
+            .brand h1 { font-size: 15px; }
+            .brand .sub { font-size: 8px; }
+            .stats-row { grid-template-columns: 1fr 1fr; }
+            .grand-row .gval { font-size: 18px; }
+            .grand-row .gpay { font-size: 16px; }
+            .field-row { grid-template-columns: 1fr; }
+            .profile-card { flex-direction: column; text-align: center; }
+            .profile-card .info .role { justify-content: center; }
+            .rzd-logo-text { display: none; }
+            .month-select { max-width: 90px; font-size: 11px; }
         }
     </style>
 </head>
@@ -550,31 +715,77 @@
     <div class="rail-header">
         <div class="rail-header-inner">
             <div class="brand">
-                <span class="brand-mark">ЖД</span>
+                <!-- ЛОГОТИП РЖД -->
+                <div class="rzd-logo">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="100" height="100" rx="12" fill="#C8102E"/>
+                        <text x="50" y="72" text-anchor="middle" font-family="Oswald, sans-serif" font-weight="700" font-size="54" fill="white" letter-spacing="2">РЖД</text>
+                        <rect x="10" y="82" width="80" height="4" rx="2" fill="white" opacity="0.3"/>
+                        <rect x="10" y="90" width="80" height="4" rx="2" fill="white" opacity="0.2"/>
+                        <rect x="20" y="82" width="3" height="12" fill="white" opacity="0.2"/>
+                        <rect x="40" y="82" width="3" height="12" fill="white" opacity="0.2"/>
+                        <rect x="60" y="82" width="3" height="12" fill="white" opacity="0.2"/>
+                        <rect x="80" y="82" width="3" height="12" fill="white" opacity="0.2"/>
+                    </svg>
+                    <div class="rzd-logo-text">
+                        РОССИЙСКИЕ
+                        <span>ЖЕЛЕЗНЫЕ ДОРОГИ</span>
+                    </div>
+                </div>
+
                 <div>
                     <h1>Табель</h1>
                     <span class="sub">учёт рабочего времени</span>
                 </div>
             </div>
-            <select class="month-select" id="monthSelect"></select>
+            <div class="header-actions">
+                <button id="themeToggle" title="Сменить тему">🌓</button>
+                <select class="month-select" id="monthSelect"></select>
+            </div>
         </div>
     </div>
     <div class="rail-stripe"></div>
 
     <div class="wrap">
+        <!-- ПРОФИЛЬ -->
+        <div class="profile-card">
+            <div class="avatar" id="avatarLetter">И</div>
+            <div class="info">
+                <div class="name" id="profileName">Иванов И.И.</div>
+                <div class="role">
+                    <span id="profileRole">Машинист</span>
+                    <span class="badge" id="profileBadge">МАШ</span>
+                </div>
+            </div>
+            <button class="edit-btn" id="editProfileBtn">✎ Изменить</button>
+        </div>
+
         <div class="total-card">
             <div class="label">Отработано</div>
             <div id="roleRows"></div>
             <div class="grand-row">
                 <div class="glabel">Итого</div>
-                <div style="display:flex; align-items:baseline;">
+                <div style="display:flex; align-items:baseline; gap:6px; flex-wrap:wrap;">
                     <span class="gval" id="grandHours">0ч 00м</span>
                     <span class="gpay" id="grandPay">0 ₽</span>
                 </div>
             </div>
         </div>
 
-        <div class="role-toggle" id="roleToggle"></div>
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="num" id="statDays">0</div>
+                <div class="lbl">Дней</div>
+            </div>
+            <div class="stat-card">
+                <div class="num" id="statShifts">0</div>
+                <div class="lbl">Смен</div>
+            </div>
+            <div class="stat-card">
+                <div class="num" id="statAvg">0ч</div>
+                <div class="lbl">Средняя</div>
+            </div>
+        </div>
 
         <div class="stamp-zone">
             <button class="stamp-btn" id="stampBtn">
@@ -585,137 +796,175 @@
             <div class="stamp-hint" id="stampHint">не в смене</div>
         </div>
 
-        <div class="section-label">Записи</div>
+        <div class="section-label">
+            <span>Записи</span>
+            <span class="badge" id="entryCount">0</span>
+        </div>
         <div id="entryList"></div>
 
         <button class="add-btn" id="addBtn">+ Добавить запись вручную</button>
+
+        <div class="action-row">
+            <button class="export-btn" id="exportBtn">📤 Экспорт CSV</button>
+            <button class="clear-btn" id="clearBtn">🗑️ Очистить</button>
+        </div>
     </div>
 
     <div id="modalRoot"></div>
     <div class="toast" id="toast"></div>
 
     <script>
-        const DOW = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
-        const MONTHS_NOM = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь',
-            'Декабрь'
-        ];
+        // ============================================================
+        //  ПОЛНЫЙ JavaScript
+        // ============================================================
+
+        const DOW = ['вс','пн','вт','ср','чт','пт','сб'];
+        const MONTHS_NOM = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
 
         const ROLES = [
             { id: 'driver', name: 'Машинист', badge: 'МАШ' },
             { id: 'assistant', name: 'Помощник машиниста', badge: 'ПОМ' }
         ];
 
+        const LOCOMOTIVE_SERIES = ['ВЛ-11', 'ВЛ-11М', 'ВЛ-10', 'ВЛ-10У', '2ЭС6'];
+
+        let profile = {
+            name: 'Иванов И.И.',
+            role: 'driver'
+        };
+
         let entries = [];
         let rates = { driver: 379.79, assistant: 262.34 };
-        let currentRole = 'driver';
         let selectedMonthKey = monthKey(new Date());
         let tickInterval = null;
 
-        function monthKey(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); }
-
-        function pad(n) { return String(n).padStart(2, '0'); }
-
+        // ----- helpers -----
+        function monthKey(d) { return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0'); }
+        function pad(n) { return String(n).padStart(2,'0'); }
         function fmtDur(ms) {
-            const totalMin = Math.max(0, Math.round(ms / 60000));
-            return Math.floor(totalMin / 60) + 'ч ' + pad(totalMin % 60) + 'м';
+            const totalMin = Math.max(0, Math.round(ms/60000));
+            return Math.floor(totalMin/60) + 'ч ' + pad(totalMin%60) + 'м';
         }
-
         function fmtTime(iso) {
             const d = new Date(iso);
             return pad(d.getHours()) + ':' + pad(d.getMinutes());
         }
-
         function fmtDateShort(iso) {
             const d = new Date(iso);
-            return DOW[d.getDay()] + ' ' + d.getDate() + '.' + pad(d.getMonth() + 1);
+            return DOW[d.getDay()] + ' ' + d.getDate() + '.' + pad(d.getMonth()+1);
         }
-
         function fmtMoney(n) {
             const parts = n.toFixed(2).split('.');
             return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ',' + parts[1] + ' ₽';
         }
-
         function roleInfo(id) { return ROLES.find(r => r.id === id) || ROLES[0]; }
-
         function toast(msg) {
             const t = document.getElementById('toast');
             t.textContent = msg;
             t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 1800);
+            clearTimeout(t._hide);
+            t._hide = setTimeout(() => t.classList.remove('show'), 2000);
+        }
+
+        // ----- localStorage -----
+        async function loadProfile() {
+            try {
+                const raw = localStorage.getItem('tabel-profile');
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    profile.name = parsed.name || 'Иванов И.И.';
+                    profile.role = parsed.role || 'driver';
+                }
+            } catch(e) {}
+        }
+        async function saveProfile() {
+            try { localStorage.setItem('tabel-profile', JSON.stringify(profile)); }
+            catch(e) { toast('Ошибка сохранения профиля'); }
         }
 
         async function loadEntries() {
             try {
                 const raw = localStorage.getItem('work-entries');
                 entries = raw ? JSON.parse(raw) : [];
-                entries.forEach(e => { if (!e.role) e.role = 'driver'; });
-            } catch (e) {
-                entries = [];
-            }
+                entries.forEach(e => {
+                    if (!e.role) e.role = 'driver';
+                    if (!e.series) e.series = '';
+                    if (!e.locoNum) e.locoNum = '';
+                    if (!e.trainNum) e.trainNum = '';
+                    if (!e.stationFrom) e.stationFrom = '';
+                    if (!e.stationTo) e.stationTo = '';
+                });
+            } catch(e) { entries = []; }
         }
-
         async function saveEntries() {
-            try {
-                localStorage.setItem('work-entries', JSON.stringify(entries));
-            } catch (e) {
-                toast('Ошибка сохранения');
-            }
+            try { localStorage.setItem('work-entries', JSON.stringify(entries)); }
+            catch(e) { toast('Ошибка сохранения'); }
         }
-
         async function loadRates() {
             try {
                 const raw = localStorage.getItem('work-rates');
-                if (raw) {
+                if(raw) {
                     const parsed = JSON.parse(raw);
                     rates = { driver: parsed.driver || 379.79, assistant: parsed.assistant || 262.34 };
                 }
-            } catch (e) { /* keep defaults */ }
+            } catch(e) {}
         }
-
         async function saveRates() {
-            try {
-                localStorage.setItem('work-rates', JSON.stringify(rates));
-            } catch (e) {
-                toast('Ошибка сохранения ставки');
-            }
+            try { localStorage.setItem('work-rates', JSON.stringify(rates)); }
+            catch(e) { toast('Ошибка сохранения ставки'); }
         }
 
-        function activeEntry() {
-            return entries.find(e => !e.end);
+        // ----- theme -----
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            localStorage.setItem('tabel-theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+        }
+        function loadTheme() {
+            const saved = localStorage.getItem('tabel-theme');
+            if (saved === 'dark') document.body.classList.add('dark');
         }
 
-        function buildMonthOptions() {
-            const sel = document.getElementById('monthSelect');
-            const keys = new Set(entries.map(e => e.start.slice(0, 7)));
-            keys.add(monthKey(new Date()));
-            const sorted = Array.from(keys).sort().reverse();
-            sel.innerHTML = '';
-            sorted.forEach(k => {
-                const [y, m] = k.split('-');
-                const opt = document.createElement('option');
-                opt.value = k;
-                opt.textContent = MONTHS_NOM[parseInt(m) - 1] + ' ' + y;
-                if (k === selectedMonthKey) opt.selected = true;
-                sel.appendChild(opt);
-            });
-        }
-
-        function monthEntriesFor() {
-            return entries.filter(e => e.start.slice(0, 7) === selectedMonthKey);
-        }
-
+        // ----- data functions -----
+        function activeEntry() { return entries.find(e => !e.end); }
+        function monthEntriesFor() { return entries.filter(e => e.start.slice(0,7) === selectedMonthKey); }
         function msFor(e) {
             const end = e.end || new Date().toISOString();
             return new Date(end) - new Date(e.start);
         }
 
+        // ----- render: profile -----
+        function renderProfile() {
+            const role = roleInfo(profile.role);
+            document.getElementById('profileName').textContent = profile.name;
+            document.getElementById('profileRole').textContent = role.name;
+            document.getElementById('profileBadge').textContent = role.badge;
+            document.getElementById('avatarLetter').textContent = profile.name.charAt(0).toUpperCase();
+        }
+
+        // ----- render: month options -----
+        function buildMonthOptions() {
+            const sel = document.getElementById('monthSelect');
+            const keys = new Set(entries.map(e => e.start.slice(0,7)));
+            keys.add(monthKey(new Date()));
+            const sorted = Array.from(keys).sort().reverse();
+            sel.innerHTML = '';
+            sorted.forEach(k => {
+                const [y,m] = k.split('-');
+                const opt = document.createElement('option');
+                opt.value = k;
+                opt.textContent = MONTHS_NOM[parseInt(m)-1] + ' ' + y;
+                if (k === selectedMonthKey) opt.selected = true;
+                sel.appendChild(opt);
+            });
+        }
+
+        // ----- render: total card -----
         function renderTotal() {
             const monthEntries = monthEntriesFor();
             const rowsEl = document.getElementById('roleRows');
             rowsEl.innerHTML = '';
 
-            let grandMs = 0,
-                grandPay = 0;
+            let grandMs = 0, grandPay = 0;
             ROLES.forEach(role => {
                 const roleMs = monthEntries
                     .filter(e => e.role === role.id)
@@ -744,11 +993,11 @@
             });
         }
 
+        // ----- edit rate -----
         function editRate(btn) {
             const roleId = btn.dataset.role;
             const current = rates[roleId];
-            btn.outerHTML =
-                `<span class="rrate" id="rateInputWrap-${roleId}"><input type="number" min="0" step="1" value="${current}" id="rateInput-${roleId}">&nbsp;₽/ч</span>`;
+            btn.outerHTML = `<span class="rrate" id="rateInputWrap-${roleId}"><input type="number" min="0" step="1" value="${current}" id="rateInput-${roleId}">&nbsp;₽/ч</span>`;
             const input = document.getElementById('rateInput-' + roleId);
             input.focus();
             input.select();
@@ -762,39 +1011,32 @@
             input.addEventListener('keydown', (e) => { if (e.key === 'Enter') input.blur(); });
         }
 
-        function renderRoleToggle() {
-            const el = document.getElementById('roleToggle');
-            el.innerHTML = '';
-            ROLES.forEach(role => {
-                const btn = document.createElement('button');
-                btn.textContent = role.name;
-                if (role.id === currentRole) btn.classList.add('sel');
-                btn.addEventListener('click', () => {
-                    if (activeEntry()) {
-                        toast('Сначала завершите текущую смену');
-                        return;
-                    }
-                    currentRole = role.id;
-                    renderRoleToggle();
-                });
-                el.appendChild(btn);
-            });
+        // ----- render: stats -----
+        function renderStats() {
+            const monthEntries = monthEntriesFor();
+            const totalMs = monthEntries.reduce((sum, e) => sum + msFor(e), 0);
+            const totalHours = totalMs / 3600000;
+            const days = new Set(monthEntries.map(e => e.start.slice(0,10))).size;
+            const count = monthEntries.length;
+
+            document.getElementById('statDays').textContent = days;
+            document.getElementById('statShifts').textContent = count;
+            document.getElementById('statAvg').textContent = count > 0 ? (totalHours / count).toFixed(1) + 'ч' : '0ч';
+            document.getElementById('entryCount').textContent = count;
         }
 
+        // ----- render: stamp button -----
         function renderStamp() {
             const active = activeEntry();
             const btn = document.getElementById('stampBtn');
             const label = document.getElementById('stampLabel');
             const timeEl = document.getElementById('stampTime');
             const hint = document.getElementById('stampHint');
-            const toggle = document.getElementById('roleToggle');
 
             if (active) {
                 btn.classList.add('active');
                 label.textContent = 'Закончить';
                 hint.textContent = roleInfo(active.role).name + ' · с ' + fmtTime(active.start);
-                toggle.style.opacity = '0.45';
-                toggle.style.pointerEvents = 'none';
                 updateTick();
                 if (!tickInterval) tickInterval = setInterval(updateTick, 1000);
             } else {
@@ -802,13 +1044,9 @@
                 label.textContent = 'Начать смену';
                 timeEl.textContent = '';
                 hint.textContent = 'не в смене';
-                toggle.style.opacity = '1';
-                toggle.style.pointerEvents = 'auto';
-                if (tickInterval) { clearInterval(tickInterval);
-                    tickInterval = null; }
+                if (tickInterval) { clearInterval(tickInterval); tickInterval = null; }
             }
         }
-
         function updateTick() {
             const active = activeEntry();
             if (!active) return;
@@ -820,13 +1058,13 @@
             document.getElementById('stampTime').textContent = pad(h) + ':' + pad(m) + ':' + pad(s);
         }
 
+        // ----- render: list -----
         function renderList() {
             const list = document.getElementById('entryList');
-            const monthEntries = monthEntriesFor().sort((a, b) => new Date(b.start) - new Date(a.start));
+            const monthEntries = monthEntriesFor().sort((a,b) => new Date(b.start) - new Date(a.start));
 
             if (monthEntries.length === 0) {
-                list.innerHTML =
-                    '<div class="empty">Пока нет записей в этом месяце.<br>Нажмите «Начать смену» или добавьте запись вручную.</div>';
+                list.innerHTML = '<div class="empty">Пока нет записей в этом месяце.<br>Нажмите «Начать смену» или добавьте запись вручную.</div>';
                 return;
             }
 
@@ -835,13 +1073,32 @@
                 const row = document.createElement('div');
                 row.className = 'entry';
                 const dur = e.end ? fmtDur(new Date(e.end) - new Date(e.start)) : '—';
-                const timesHtml = e.end ?
-                    fmtTime(e.start) + '–' + fmtTime(e.end) :
-                    fmtTime(e.start) + '–<span class="open">сейчас</span>';
+                const timesHtml = e.end
+                    ? fmtTime(e.start) + '–' + fmtTime(e.end)
+                    : fmtTime(e.start) + '–<span class="open">сейчас</span>';
+
+                let trainInfo = '';
+                if (e.series || e.locoNum || e.trainNum) {
+                    const parts = [];
+                    if (e.series) parts.push(e.series);
+                    if (e.locoNum) parts.push('№' + e.locoNum);
+                    if (e.trainNum) parts.push('п.№' + e.trainNum);
+                    trainInfo = `<span class="train-info">🚂 ${parts.join(' ')}</span>`;
+                }
+
+                let stationsInfo = '';
+                if (e.stationFrom || e.stationTo) {
+                    const parts = [];
+                    if (e.stationFrom) parts.push('от: ' + e.stationFrom);
+                    if (e.stationTo) parts.push('до: ' + e.stationTo);
+                    stationsInfo = `<span class="stations">📍 ${parts.join(' → ')}</span>`;
+                }
+
                 row.innerHTML = `
                     <div class="date">${fmtDateShort(e.start)}</div>
-                    <div class="rbadge">${roleInfo(e.role).badge}</div>
                     <div class="times">${timesHtml}</div>
+                    ${trainInfo}
+                    ${stationsInfo}
                     <div class="dur">${dur}</div>
                     <div class="actions">
                         <button data-edit="${e.id}" title="Изменить">✎</button>
@@ -864,26 +1121,35 @@
             });
         }
 
+        // ----- render all -----
         function renderAll() {
+            renderProfile();
             buildMonthOptions();
             renderTotal();
-            renderRoleToggle();
+            renderStats();
             renderStamp();
             renderList();
         }
 
+        // ----- modal helpers -----
         function toLocalInputValue(iso) {
             const d = new Date(iso);
-            return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d
-                .getMinutes());
+            return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes());
         }
 
         function openEditModal(id) {
             const entry = id ? entries.find(e => e.id === id) : null;
             const now = new Date();
             const defaultStart = entry ? toLocalInputValue(entry.start) : toLocalInputValue(now.toISOString());
+
+            const currentRoleForEntry = entry ? entry.role : profile.role;
+
             const roleOptionsHtml = ROLES.map(r =>
-                `<option value="${r.id}" ${((entry ? entry.role : currentRole) === r.id) ? 'selected' : ''}>${r.name}</option>`
+                `<option value="${r.id}" ${(currentRoleForEntry === r.id) ? 'selected' : ''}>${r.name}</option>`
+            ).join('');
+
+            const seriesOptionsHtml = LOCOMOTIVE_SERIES.map(s =>
+                `<option value="${s}" ${(entry && entry.series === s) ? 'selected' : ''}>${s}</option>`
             ).join('');
 
             const root = document.getElementById('modalRoot');
@@ -891,18 +1157,47 @@
                 <div class="modal-backdrop" id="backdrop">
                     <div class="modal">
                         <h2>${entry ? 'Изменить запись' : 'Добавить запись'}</h2>
+
                         <div class="field">
-                            <label>Должность</label>
-                            <select id="roleInput">${roleOptionsHtml}</select>
-                        </div>
-                        <div class="field">
-                            <label>Начало</label>
+                            <label>Начало смены</label>
                             <input type="datetime-local" id="startInput" value="${defaultStart}">
                         </div>
+
                         <div class="field">
                             <label>Окончание (можно оставить пустым)</label>
                             <input type="datetime-local" id="endInput" value="${entry && entry.end ? toLocalInputValue(entry.end) : ''}">
                         </div>
+
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Станция отправления</label>
+                                <input type="text" id="stationFromInput" placeholder="Москва" value="${entry ? entry.stationFrom || '' : ''}">
+                            </div>
+                            <div class="field">
+                                <label>Станция назначения</label>
+                                <input type="text" id="stationToInput" placeholder="Санкт-Петербург" value="${entry ? entry.stationTo || '' : ''}">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label>Серия локомотива</label>
+                            <select id="seriesInput">
+                                <option value="">— не указано —</option>
+                                ${seriesOptionsHtml}
+                            </select>
+                        </div>
+
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Номер локомотива</label>
+                                <input type="text" id="locoNumInput" placeholder="1234" value="${entry ? entry.locoNum || '' : ''}">
+                            </div>
+                            <div class="field">
+                                <label>Номер поезда</label>
+                                <input type="text" id="trainNumInput" placeholder="202" value="${entry ? entry.trainNum || '' : ''}">
+                            </div>
+                        </div>
+
                         <div class="modal-actions">
                             <button class="btn-cancel" id="cancelBtn">Отмена</button>
                             <button class="btn-save" id="saveBtn">Сохранить</button>
@@ -916,10 +1211,16 @@
                 if (e.target.id === 'backdrop') closeModal();
             });
             document.getElementById('cancelBtn').addEventListener('click', closeModal);
+
             document.getElementById('saveBtn').addEventListener('click', async () => {
                 const startVal = document.getElementById('startInput').value;
                 const endVal = document.getElementById('endInput').value;
-                const roleVal = document.getElementById('roleInput').value;
+                const seriesVal = document.getElementById('seriesInput').value;
+                const locoNumVal = document.getElementById('locoNumInput').value.trim();
+                const trainNumVal = document.getElementById('trainNumInput').value.trim();
+                const stationFromVal = document.getElementById('stationFromInput').value.trim();
+                const stationToVal = document.getElementById('stationToInput').value.trim();
+
                 if (!startVal) { toast('Укажите время начала'); return; }
                 const startISO = new Date(startVal).toISOString();
                 const endISO = endVal ? new Date(endVal).toISOString() : null;
@@ -927,18 +1228,37 @@
                     toast('Окончание должно быть позже начала');
                     return;
                 }
+
+                const roleVal = profile.role;
+
                 if (entry) {
                     entry.start = startISO;
                     entry.end = endISO;
                     entry.role = roleVal;
+                    entry.series = seriesVal;
+                    entry.locoNum = locoNumVal;
+                    entry.trainNum = trainNumVal;
+                    entry.stationFrom = stationFromVal;
+                    entry.stationTo = stationToVal;
                 } else {
-                    entries.push({ id: 'e' + Date.now(), start: startISO, end: endISO, role: roleVal });
+                    entries.push({
+                        id: 'e' + Date.now(),
+                        start: startISO,
+                        end: endISO,
+                        role: roleVal,
+                        series: seriesVal,
+                        locoNum: locoNumVal,
+                        trainNum: trainNumVal,
+                        stationFrom: stationFromVal,
+                        stationTo: stationToVal
+                    });
                 }
                 await saveEntries();
                 closeModal();
                 renderAll();
                 toast('Сохранено');
             });
+
             const delBtn = document.getElementById('deleteBtn');
             if (delBtn) {
                 delBtn.addEventListener('click', async () => {
@@ -955,6 +1275,94 @@
             document.getElementById('modalRoot').innerHTML = '';
         }
 
+        // ----- Редактирование профиля -----
+        function openProfileModal() {
+            const root = document.getElementById('modalRoot');
+            const roleOptionsHtml = ROLES.map(r =>
+                `<option value="${r.id}" ${(profile.role === r.id) ? 'selected' : ''}>${r.name}</option>`
+            ).join('');
+
+            root.innerHTML = `
+                <div class="modal-backdrop" id="backdrop">
+                    <div class="modal">
+                        <h2>Редактировать профиль</h2>
+
+                        <div class="field">
+                            <label>ФИО машиниста</label>
+                            <input type="text" id="profileNameInput" placeholder="Иванов И.И." value="${profile.name}">
+                        </div>
+
+                        <div class="field">
+                            <label>Должность</label>
+                            <select id="profileRoleInput">${roleOptionsHtml}</select>
+                        </div>
+
+                        <div class="modal-actions">
+                            <button class="btn-cancel" id="cancelBtn">Отмена</button>
+                            <button class="btn-save" id="saveBtn">Сохранить</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('backdrop').addEventListener('click', (e) => {
+                if (e.target.id === 'backdrop') closeModal();
+            });
+            document.getElementById('cancelBtn').addEventListener('click', closeModal);
+
+            document.getElementById('saveBtn').addEventListener('click', async () => {
+                const name = document.getElementById('profileNameInput').value.trim();
+                const role = document.getElementById('profileRoleInput').value;
+
+                if (!name) { toast('Введите ФИО'); return; }
+
+                profile.name = name;
+                profile.role = role;
+                await saveProfile();
+                closeModal();
+                renderAll();
+                toast('Профиль сохранён');
+            });
+        }
+
+        // ----- export CSV -----
+        function exportCSV() {
+            const monthEntries = monthEntriesFor().sort((a,b) => new Date(a.start) - new Date(b.start));
+            if (monthEntries.length === 0) {
+                toast('Нет записей для экспорта');
+                return;
+            }
+            let csv = 'Дата,Начало,Конец,Отправление,Назначение,Серия,№Локомотива,№Поезда,Часы,Зарплата\n';
+            monthEntries.forEach(e => {
+                const start = new Date(e.start);
+                const end = e.end ? new Date(e.end) : new Date();
+                const hours = ((end - start) / 3600000).toFixed(2);
+                const pay = hours * rates[e.role];
+                csv += `${start.toLocaleDateString()},${fmtTime(e.start)},${e.end ? fmtTime(e.end) : 'сейчас'},${e.stationFrom || ''},${e.stationTo || ''},${e.series || ''},${e.locoNum || ''},${e.trainNum || ''},${hours},${pay.toFixed(2)}\n`;
+            });
+
+            const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `табель_${selectedMonthKey}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            toast('CSV экспортирован!');
+        }
+
+        // ----- clear month -----
+        function clearMonth() {
+            if (!confirm(`Удалить все записи за ${selectedMonthKey}?`)) return;
+            entries = entries.filter(e => e.start.slice(0,7) !== selectedMonthKey);
+            saveEntries();
+            renderAll();
+            toast('Записи удалены');
+        }
+
+        // ----- events -----
         document.getElementById('stampBtn').addEventListener('click', async () => {
             const active = activeEntry();
             const flash = document.getElementById('stampFlash');
@@ -966,23 +1374,45 @@
                 active.end = new Date().toISOString();
                 await saveEntries();
                 toast('Смена закончена');
+                renderAll();
             } else {
-                entries.push({ id: 'e' + Date.now(), start: new Date().toISOString(), end: null, role: currentRole });
+                const now = new Date();
+                const tempId = 'temp_' + Date.now();
+                entries.push({
+                    id: tempId,
+                    start: now.toISOString(),
+                    end: null,
+                    role: profile.role,
+                    series: '',
+                    locoNum: '',
+                    trainNum: '',
+                    stationFrom: '',
+                    stationTo: ''
+                });
                 await saveEntries();
-                toast('Смена начата · ' + roleInfo(currentRole).name);
+                renderAll();
+                openEditModal(tempId);
+                toast('Заполните данные о поезде');
             }
-            renderAll();
         });
 
         document.getElementById('monthSelect').addEventListener('change', (e) => {
             selectedMonthKey = e.target.value;
             renderTotal();
+            renderStats();
             renderList();
         });
 
         document.getElementById('addBtn').addEventListener('click', () => openEditModal(null));
+        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+        document.getElementById('exportBtn').addEventListener('click', exportCSV);
+        document.getElementById('clearBtn').addEventListener('click', clearMonth);
+        document.getElementById('editProfileBtn').addEventListener('click', openProfileModal);
 
+        // ----- init -----
         (async function init() {
+            loadTheme();
+            await loadProfile();
             await loadEntries();
             await loadRates();
             renderAll();
